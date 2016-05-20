@@ -61,7 +61,7 @@ class UrlSplit {
         $this->authorization = $this->getAuthorization();
         $this->username      = $this->getUsername();
         $this->password      = $this->getPassword();
-        //$this->domain        = $this->getDomain();
+        $this->domain        = $this->getDomain();
         //$this->port          = $this->getPort();
         //$this->domainList    = $this->getDomainList();
         //$this->domainLevels  = $this->getDomainLevels();
@@ -174,39 +174,38 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the complete domain of the given url.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getDomain() {
-//        $cached = $this->cache->domain,
-//            protocol, authorization,
-//            domain;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        protocol      = getProtocol();
-//        authorization = $this->getAuthorization();
-//
-//        if (protocol) {
-//            url = url.replace(protocol + '://', '');
-//        }
-//
-//        if (authorization) {
-//            url = url.replace(authorization + '@', '');
-//        }
-//
-//        // Remove request and port if exists
-//        domain = url.split('/')[0].split(':')[0];
-//
-//        return $this->cache->domain = domain;
-//    }
-//
-//
+    /**
+     * Returns the complete domain of the given url.
+     *
+     * @private
+     * @returns string
+     */
+    function getDomain() {
+        $cached = $this->cache->domain;
+        $url    = $this->url;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $protocol      = $this->getProtocol();
+        $authorization = $this->getAuthorization();
+
+        if ($protocol) {
+            $url = str_replace($protocol . '://', '', $url);
+        }
+
+        if ($authorization) {
+            $url = str_replace($authorization . '@', '', $url);
+        }
+
+        // @todo - Use getRequest() and getPort() to replace them with empty-string
+        $domain = explode(':', explode('/', $url)[0])[0];
+
+        return $this->cache->domain = $domain;
+    }
+
+
 //    /**
 //     * Returns the domain parts of the given url as array.
 //     *
@@ -268,7 +267,7 @@ class UrlSplit {
 //            return $cached;
 //        }
 //
-//        protocol      = getProtocol();
+//        protocol      = $this->getProtocol();
 //        authorization = $this->getAuthorization();
 //        urlReplace    = url.replace(protocol + '://', '').replace(authorization + '@', '');
 //        urlSplit      = urlReplace.split('/')[0].split(':');
@@ -293,7 +292,7 @@ class UrlSplit {
 //            return $cached;
 //        }
 //
-//        protocol      = getProtocol();
+//        protocol      = $this->getProtocol();
 //        authorization = $this->getAuthorization();
 //        domain        = getDomain();
 //        port          = getPort();
