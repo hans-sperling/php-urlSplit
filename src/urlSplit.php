@@ -63,7 +63,7 @@ class UrlSplit {
         $this->password      = $this->getPassword();
         $this->domain        = $this->getDomain();
         $this->domainList    = $this->getDomainList();
-        //$this->domainLevels  = $this->getDomainLevels();
+        $this->domainLevels  = $this->getDomainLevels();
         //$this->port          = $this->getPort();
         //$this->request       = $this->getRequest();
         //$this->path          = $this->getPath();
@@ -226,29 +226,26 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the domain parts of the given url as array in order of their level.
-//     *
-//     * @private
-//     * @returns {Array}
-//     */
-//    function getDomainLevels() {
-//        $cached = $this->cache->domainLevels,
-//            domainList,
-//            domainLevels;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        domainList   = getDomainList();
-//        domainLevels = domainList.slice().reverse();
-//
-//        // noinspection JSValidateTypes
-//        return $this->cache->domainLevels = domainLevels;
-//    }
-//
-//
+    /**
+     * Returns the domain parts of the given url as array in order of their level.
+     *
+     * @private
+     * @returns array
+     */
+    function getDomainLevels() {
+        $cached = $this->cache->domainLevels;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $domainList   = $this->getDomainList();
+        $domainLevels = array_reverse($domainList);
+
+        return $this->cache->domainLevels = $domainLevels;
+    }
+
+
 //    /**
 //     * Returns the port of the given url.
 //     *
