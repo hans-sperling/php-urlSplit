@@ -73,7 +73,7 @@ class UrlSplit {
         $this->fileExtension = $this->getFileExtension();
         $this->directoryList = $this->getDirectoryList();
         $this->directory     = $this->getDirectory();
-        //$this->query         = $this->getQuery();
+        $this->query         = $this->getQuery();
         //$this->queryList     = $this->getQueryList();
         //$this->queryObject   = $this->getQueryObject();
         //$this->fragment      = $this->getFragment();
@@ -495,31 +495,29 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the query from the request part of the given url.
-//     *
-//     * The query is also known as the search part of a request.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getQuery() {
-//        $cached = $this->cache->query,
-//            request, requestSplit,
-//            query;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        request      = $this->getRequest();
-//        requestSplit = request.split('?');
-//        query        = (requestSplit[1] !== undefined ? requestSplit[1].split('#')[0] : '');
-//
-//        return $this->cache->query = query;
-//    }
-//
-//
+    /**
+     * Returns the query from the request part of the given url.
+     *
+     * The query is also known as the search part of a request.
+     *
+     * @private
+     * @returns string
+     */
+    function getQuery() {
+        $cached = $this->cache->query;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $request      = $this->getRequest();
+        $requestSplit = explode('?', $request);
+        $query        = ($requestSplit[1] ? explode('#', $requestSplit[1])[0] : '');
+
+        return $this->cache->query = $query;
+    }
+
+
 //    /**
 //     * Returns the query parts from the request part of the given url as array.
 //     *
