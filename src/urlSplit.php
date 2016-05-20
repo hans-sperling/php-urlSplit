@@ -68,7 +68,7 @@ class UrlSplit {
         $this->request       = $this->getRequest();
         $this->path          = $this->getPath();
         $this->pathList      = $this->getPathList();
-        //$this->file          = $this->getFile();
+        $this->file          = $this->getFile();
         //$this->fileName      = $this->getFileName();
         //$this->fileExtension = $this->getFileExtension();
         //$this->directory     = $this->getDirectory();
@@ -359,43 +359,41 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the file from the request part of the given url.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getFile() {
-//        $cached = $this->cache->file,
-//            pathList, lastItem, itemSplitDash, itemSplitDot,
-//            file;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        pathList = getPathList();
-//        lastItem = pathList[(pathList.length - 1)];
-//
-//        if (lastItem) {
-//            itemSplitDash = lastItem ? lastItem.split('/') : '';
-//
-//            if (itemSplitDash.length > 1) {
-//                file = '';
-//            }
-//            else {
-//                itemSplitDot = lastItem.split('.');
-//                file         = itemSplitDot[1] ? lastItem : itemSplitDot[0];
-//            }
-//        }
-//        else {
-//            file = '';
-//        }
-//
-//        return $this->cache->file = file;
-//    }
-//
-//
+    /**
+     * Returns the file from the request part of the given url.
+     *
+     * @private
+     * @returns string
+     */
+    function getFile() {
+        $cached = $this->cache->file;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $pathList = $this->getPathList();
+        $lastItem = $pathList[sizeof($pathList) - 1];
+
+        if ($lastItem) {
+            $itemSplitDash = $lastItem ? explode('/', $lastItem) : '';
+
+            if (sizeof($itemSplitDash) > 1) {
+                $file = '';
+            }
+            else {
+                $itemSplitDot = explode('.', $lastItem);
+                $file         = $itemSplitDot[1] ? $lastItem : $itemSplitDot[0];
+            }
+        }
+        else {
+            $file = '';
+        }
+
+        return $this->cache->file = $file;
+    }
+
+
 //    /**
 //     * Returns the filename from the request part of the given url.
 //     *
@@ -467,7 +465,7 @@ class UrlSplit {
 //            return $cached;
 //        }
 //
-//        pathList = getPathList();
+//        pathList = $this->getPathList();
 //        file     = getFile();
 //
 //        if (file) {
