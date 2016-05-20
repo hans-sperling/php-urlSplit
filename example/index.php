@@ -9,14 +9,15 @@ if (file_exists('../src/init.php')) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>bluejade.de</title>
+    <title>php-urlSplit</title>
 </head>
 <body>
     <?php
     $urlString = 'https://username:password@www.subdomain.example.com:1234/folder/subfolder/index.html?search=products&sort=false#top';
     $url       = new UrlSplit($urlString);
 
-    debug($url);
+    //debug($url);
+    print_r($url);
     ?>
 </body>
 </html>
