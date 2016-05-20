@@ -1,6 +1,6 @@
 {
-    "name"        : "php-urlSplit",
-    "version"     : "0.1.0",
+    "name"        : "urlSplit",
+    "version"     : "1.0.0",
     "description" : "Splits / Extracts a given url into its partials.",
     "keywords" : [
         "url",

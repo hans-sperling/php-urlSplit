@@ -4,15 +4,6 @@ module.exports = function(grunt) {
     // Configuration.
     grunt.initConfig({
         pkg : grunt.file.readJSON('package.json'),
-        uglify : {
-            options : {
-                banner: banner
-            },
-            build : {
-                src  : 'src/<%= pkg.name %>.php',
-                dest : 'dist/<%= pkg.name %>_v<%= pkg.version %>.min.php'
-            }
-        },
         concat : {
             options: {
                 banner: banner
@@ -25,9 +16,8 @@ module.exports = function(grunt) {
     });
 
     // Load plugins
-    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
 
     // Register tasks
-    grunt.registerTask('default', ['uglify', 'concat']);
+    grunt.registerTask('default', ['concat']);
 };
