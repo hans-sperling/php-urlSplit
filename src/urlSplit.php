@@ -66,7 +66,7 @@ class UrlSplit {
         $this->domainLevels  = $this->getDomainLevels();
         $this->port          = $this->getPort();
         $this->request       = $this->getRequest();
-        //$this->path          = $this->getPath();
+        $this->path          = $this->getPath();
         //$this->pathList      = $this->getPathList();
         //$this->file          = $this->getFile();
         //$this->fileName      = $this->getFileName();
@@ -302,28 +302,26 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the path from the request part of the given url.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getPath() {
-//        $cached = $this->cache->path,
-//            request,
-//            path;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        request = getRequest();
-//        path    = request.split('?')[0];
-//
-//        return $this->cache->path = path;
-//    }
-//
-//
+    /**
+     * Returns the path from the request part of the given url.
+     *
+     * @private
+     * @returns string
+     */
+    function getPath() {
+        $cached = $this->cache->path;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $request = $this->getRequest();
+        $path    = explode('?', $request)[0];
+
+        return $this->cache->path = $path;
+    }
+
+
 //    /**
 //     * Returns the path parts from the request part of the given url as array.
 //     *
@@ -528,7 +526,7 @@ class UrlSplit {
 //            return $cached;
 //        }
 //
-//        request      = getRequest();
+//        request      = $this->getRequest();
 //        requestSplit = request.split('?');
 //        query        = (requestSplit[1] !== undefined ? requestSplit[1].split('#')[0] : '');
 //
@@ -631,7 +629,7 @@ class UrlSplit {
 //            return $cached;
 //        }
 //
-//        request      = getRequest();
+//        request      = $this->getRequest();
 //        requestSplit = request.split('#');
 //        fragment     = (requestSplit[1] !== undefined ? requestSplit[1] : '');
 //
