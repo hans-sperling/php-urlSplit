@@ -76,8 +76,7 @@ class UrlSplit {
         $this->query         = $this->getQuery();
         $this->queryList     = $this->getQueryList();
         $this->queryObject   = $this->getQueryObject();
-        //$this->fragment      = $this->getFragment();
-        //$this->getQueryValue = getQueryValue;
+        $this->fragment      = $this->getFragment();
 
         $this->disableCaching();
         $this->resetCache();
@@ -568,51 +567,47 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the value of the given parameter in the given url.
-//     *
-//     * @private
-//     * @param   {string} param
-//     * @returns {string|null}
-//     */
-//    function getQueryValue(param) {
-//        var parameterObject = getQueryObject(),
-//            value           = null,
-//            item;
-//
-//        for (item in parameterObject) {
-//            if (parameterObject.hasOwnProperty(item) && item == param) {
-//                value = parameterObject[item];
-//            }
-//        }
-//
-//        return value;
-//    }
-//
-//
-//    /**
-//     * Returns the fragment from the request part of the given url.
-//     *
-//     * The fragment is also known as anchor.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getFragment() {
-//        $cached = $this->cache->fragment,
-//            request, requestSplit,
-//            fragment;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        request      = $this->getRequest();
-//        requestSplit = request.split('#');
-//        fragment     = (requestSplit[1] !== undefined ? requestSplit[1] : '');
-//
-//        return $this->cache->fragment = fragment;
-//    }
+    /**
+     * Returns the value of the given parameter in the given url.
+     *
+     * @public
+     * @param   string $param
+     * @returns string|null
+     */
+    public function getQueryValue($param) {
+        $parameterObject = $this->getQueryObject();
+
+        foreach ($parameterObject as $item) {
+            if ($item == $param) {
+                return $parameterObject[$item];
+            }
+        }
+
+        return null;
+    }
+
+
+    /**
+     * Returns the fragment from the request part of the given url.
+     *
+     * The fragment is also known as anchor.
+     *
+     * @private
+     * @returns string
+     */
+    function getFragment() {
+        $cached = $this->cache->fragment;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $request      = $this->getRequest();
+        $requestSplit = explode('#', $request);
+        $fragment     = ($requestSplit[1] ? $requestSplit[1] : '');
+
+        return $this->cache->fragment = $fragment;
+    }
 
 
     /**
