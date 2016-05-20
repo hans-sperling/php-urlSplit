@@ -69,7 +69,7 @@ class UrlSplit {
         $this->path          = $this->getPath();
         $this->pathList      = $this->getPathList();
         $this->file          = $this->getFile();
-        //$this->fileName      = $this->getFileName();
+        $this->fileName      = $this->getFileName();
         //$this->fileExtension = $this->getFileExtension();
         //$this->directory     = $this->getDirectory();
         //$this->directoryList = $this->getDirectoryList();
@@ -394,35 +394,34 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the filename from the request part of the given url.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getFileName() {
-//        $cached = $this->cache->fileName,
-//            file, fileSplit,
-//            fileName;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        file      = getFile();
-//        fileSplit = file.split('.');
-//
-//        if (fileSplit.length > 1) {
-//            fileName = fileSplit.slice(0, -1).join('.');
-//        }
-//        else {
-//            fileName = fileSplit[0];
-//        }
-//
-//        return $this->cache->fileName = fileName;
-//    }
-//
-//
+    /**
+     * Returns the filename from the request part of the given url.
+     *
+     * @private
+     * @returns string
+     */
+    function getFileName() {
+        $cached = $this->cache->fileName;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $file      = $this->getFile();
+        $fileSplit = explode('.', $file);
+
+        if (sizeof($fileSplit) > 1) {
+            $fileName = array_slice($fileSplit, 0, -1);
+            $fileName = join('.', $fileName);
+        }
+        else {
+            $fileName = $fileSplit[0];
+        }
+
+        return $this->cache->fileName = $fileName;
+    }
+
+
 //    /**
 //     * Returns the file extension from the request part of the given url.
 //     *
@@ -438,7 +437,7 @@ class UrlSplit {
 //            return $cached;
 //        }
 //
-//        file          = getFile();
+//        file          = $this->getFile();
 //        fileName      = getFileName();
 //        fileReplaced  = file.replace(fileName , '');
 //        fileExtension = (fileReplaced[0] == '.' ? fileReplaced.replace('.', '') : fileReplaced);
@@ -466,7 +465,7 @@ class UrlSplit {
 //        }
 //
 //        pathList = $this->getPathList();
-//        file     = getFile();
+//        file     = $this->getFile();
 //
 //        if (file) {
 //            directoryList = pathList.slice(0, -1);
