@@ -15,4 +15,5 @@ Thumbs.db
 /node_modules
 
 # Application
-
+/src/init.php
+/debugger
