@@ -62,9 +62,9 @@ class UrlSplit {
         $this->username      = $this->getUsername();
         $this->password      = $this->getPassword();
         $this->domain        = $this->getDomain();
-        //$this->port          = $this->getPort();
-        //$this->domainList    = $this->getDomainList();
+        $this->domainList    = $this->getDomainList();
         //$this->domainLevels  = $this->getDomainLevels();
+        //$this->port          = $this->getPort();
         //$this->request       = $this->getRequest();
         //$this->path          = $this->getPath();
         //$this->pathList      = $this->getPathList();
@@ -206,29 +206,26 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the domain parts of the given url as array.
-//     *
-//     * @private
-//     * @returns {Array}
-//     */
-//    function getDomainList() {
-//        $cached = $this->cache->domainList,
-//            domain,
-//            domainList;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        domain     = getDomain();
-//        domainList = domain.split('.');
-//
-//        // noinspection JSValidateTypes
-//        return $this->cache->domainList = domainList;
-//    }
-//
-//
+    /**
+     * Returns the domain parts of the given url as array.
+     *
+     * @private
+     * @returns array
+     */
+    function getDomainList() {
+        $cached = $this->cache->domainList;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $domain     = $this->getDomain();
+        $domainList = explode('.', $domain);
+
+        return $this->cache->domainList = $domainList;
+    }
+
+
 //    /**
 //     * Returns the domain parts of the given url as array in order of their level.
 //     *
@@ -294,7 +291,7 @@ class UrlSplit {
 //
 //        protocol      = $this->getProtocol();
 //        authorization = $this->getAuthorization();
-//        domain        = getDomain();
+//        domain        = $this->getDomain();
 //        port          = getPort();
 //        replace       = url.replace(protocol + '://', '');
 //        replace       = replace.replace(authorization + '@', '');
