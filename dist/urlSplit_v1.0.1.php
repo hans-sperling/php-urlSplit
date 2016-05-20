@@ -1,4 +1,4 @@
-/*! urlSplit - Splits / Extracts a given url into its partials. - Version: 1.0.0 */
+/*! urlSplit - Splits / Extracts the current url or a given one into its partials. - Version: 1.0.1 */
 <?php
 class UrlSplit {
     private $cacheEnabled = false;

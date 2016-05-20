@@ -1,6 +1,6 @@
 # urlSplit
 
-Splits / Extracts a given url into its partials.
+Splits / Extracts the current url or a given one into its partials.
 
 
 ## Parts of an regular web url

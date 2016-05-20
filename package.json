@@ -1,7 +1,7 @@
 {
     "name"        : "urlSplit",
-    "version"     : "1.0.0",
-    "description" : "Splits / Extracts a given url into its partials.",
+    "version"     : "1.0.1",
+    "description" : "Splits / Extracts the current url or a given one into its partials.",
     "keywords" : [
         "url",
         "split",
