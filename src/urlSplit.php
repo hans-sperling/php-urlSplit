@@ -71,8 +71,8 @@ class UrlSplit {
         $this->file          = $this->getFile();
         $this->fileName      = $this->getFileName();
         $this->fileExtension = $this->getFileExtension();
+        $this->directoryList = $this->getDirectoryList();
         //$this->directory     = $this->getDirectory();
-        //$this->directoryList = $this->getDirectoryList();
         //$this->query         = $this->getQuery();
         //$this->queryList     = $this->getQueryList();
         //$this->queryObject   = $this->getQueryObject();
@@ -444,37 +444,35 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the directory parts from the request part of the given url as array.
-//     *
-//     * The directory parts are the path parts excluding the file.
-//     *
-//     * @private
-//     * @returns {Array}
-//     */
-//    function getDirectoryList() {
-//        $cached = $this->cache->directoryList,
-//            pathList, file,
-//            directoryList;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        pathList = $this->getPathList();
-//        file     = $this->getFile();
-//
-//        if (file) {
-//            directoryList = pathList.slice(0, -1);
-//        }
-//        else {
-//            directoryList = pathList;
-//        }
-//
-//        return $this->cache->directoryList = directoryList;
-//    }
-//
-//
+    /**
+     * Returns the directory parts from the request part of the given url as array.
+     *
+     * The directory parts are the path parts excluding the file.
+     *
+     * @private
+     * @returns {Array}
+     */
+    function getDirectoryList() {
+        $cached = $this->cache->directoryList;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $pathList = $this->getPathList();
+        $file     = $this->getFile();
+
+        if ($file) {
+            $directoryList = array_slice($pathList, 0, -1);
+        }
+        else {
+            $directoryList = $pathList;
+        }
+
+        return $this->cache->directoryList = $directoryList;
+    }
+
+
 //    /**
 //     * Returns the directory from the request part of the given url.
 //     *
