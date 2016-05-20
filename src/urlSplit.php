@@ -67,7 +67,7 @@ class UrlSplit {
         $this->port          = $this->getPort();
         $this->request       = $this->getRequest();
         $this->path          = $this->getPath();
-        //$this->pathList      = $this->getPathList();
+        $this->pathList      = $this->getPathList();
         //$this->file          = $this->getFile();
         //$this->fileName      = $this->getFileName();
         //$this->fileExtension = $this->getFileExtension();
@@ -322,46 +322,43 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the path parts from the request part of the given url as array.
-//     *
-//     * @private
-//     * @returns {Array}
-//     */
-//    function getPathList() {
-//        $cached = $this->cache->pathList,
-//            path, amount, i,
-//            pathList;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        path     = getPath();
-//        pathList = path.split('/');
-//        amount   = pathList.length;
-//
-//        for (i = 0; i < amount; i++) {
-//            pathList[i] = pathList[i];
-//
-//            if (i < amount - 1) {
-//                pathList[i] = pathList[i] + '/';
-//            }
-//            else {
-//                if (pathList[i] === '') {
-//                    pathList.splice(-1);
-//                }
-//                else {
-//                    pathList[i] = pathList[i];
-//                }
-//            }
-//        }
-//
-//        // noinspection JSValidateTypes
-//        return $this->cache->pathList = pathList;
-//    }
-//
-//
+    /**
+     * Returns the path parts from the request part of the given url as array.
+     *
+     * @private
+     * @returns array
+     */
+    function getPathList() {
+        $cached = $this->cache->pathList;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $path     = $this->getPath();
+        $pathList = explode('/', $path);
+        $amount   = sizeof($pathList);
+
+        for ($i = 0; $i < $amount; $i++) {
+            //$pathList[$i] = $pathList[$i];
+
+            if ($i < $amount - 1) {
+                $pathList[$i] = $pathList[$i] . '/';
+            }
+            else {
+                if ($pathList[$i] === '') {
+                    array_splice($pathList, -1);
+                }
+                else {
+                    //$pathList[$i] = $pathList[$i];
+                }
+            }
+        }
+
+        return $this->cache->pathList = $pathList;
+    }
+
+
 //    /**
 //     * Returns the file from the request part of the given url.
 //     *
