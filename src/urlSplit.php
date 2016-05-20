@@ -54,6 +54,9 @@ class UrlSplit {
         // If no url is given the current page request will be taken.
         $this->url = $url ? $url : $this->getUrl();
 
+        $this->resetCache();
+        $this->enableCaching();
+
         $this->protocol      = $this->getProtocol();
         $this->authorization = $this->getAuthorization();
         //$this->username      = $this->getUsername();
@@ -75,6 +78,9 @@ class UrlSplit {
         //$this->queryObject   = $this->getQueryObject();
         //$this->fragment      = $this->getFragment();
         //$this->getQueryValue = getQueryValue;
+
+        $this->disableCaching();
+        $this->resetCache();
     }
 
 
@@ -126,7 +132,7 @@ class UrlSplit {
     }
 
 
-    //    /**
+//    /**
 //     * Returns the authorization of the given url.
 //     * A normal syntax of an authorization is {username}:{password}@example.com or only {username}@example.com
 //     *
@@ -671,34 +677,34 @@ class UrlSplit {
 //    }
 
 
-//    /**
-//     * Resets the cache data.
-//     *
-//     * @private
-//     */
-//    function resetCache() {
-//        cache = reset;
-//    }
-//
-//
-//    /**
-//     * Enables the caching.
-//     *
-//     * @private
-//     */
-//    function enableCaching() {
-//        cacheEnabled = true;
-//    }
-//
-//
-//    /**
-//     * Disables the caching.
-//     *
-//     * @private
-//     */
-//    function disableCaching() {
-//        cacheEnabled = false;
-//    }
+    /**
+     * Resets the cache data.
+     *
+     * @private
+     */
+    function resetCache() {
+        $this->cache = (object)$this->reset;
+    }
+
+
+    /**
+     * Enables the caching.
+     *
+     * @private
+     */
+    function enableCaching() {
+        $this->cacheEnabled = true;
+    }
+
+
+    /**
+     * Disables the caching.
+     *
+     * @private
+     */
+    function disableCaching() {
+        $this->cacheEnabled = false;
+    }
 
 
     /**
