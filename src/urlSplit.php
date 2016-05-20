@@ -60,7 +60,7 @@ class UrlSplit {
         $this->protocol      = $this->getProtocol();
         $this->authorization = $this->getAuthorization();
         $this->username      = $this->getUsername();
-        //$this->password      = $this->getPassword();
+        $this->password      = $this->getPassword();
         //$this->domain        = $this->getDomain();
         //$this->port          = $this->getPort();
         //$this->domainList    = $this->getDomainList();
@@ -136,7 +136,7 @@ class UrlSplit {
      * Returns the username from the authorization part of the given url.
      *
      * @private
-     * @returns {string}
+     * @returns string
      */
     function getUsername() {
         $cached = $this->cache->username;
@@ -153,29 +153,27 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the password from the authorization part of the given url.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getPassword() {
-//        $cached = $this->cache->password,
-//            authorization, authorizationSplit,
-//            password;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        authorization      = $this->getAuthorization();
-//        authorizationSplit = authorization.split(':');
-//        password           = (authorizationSplit[1] ? authorizationSplit[1] : '');
-//
-//        return $this->cache->password = password;
-//    }
-//
-//
+    /**
+     * Returns the password from the authorization part of the given url.
+     *
+     * @private
+     * @returns string
+     */
+    function getPassword() {
+        $cached = $this->cache->password;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $authorization      = $this->getAuthorization();
+        $authorizationSplit = explode(':', $authorization);
+        $password           = ($authorizationSplit[1] ? $authorizationSplit[1] : '');
+
+        return $this->cache->password = $password;
+    }
+
+
 //    /**
 //     * Returns the complete domain of the given url.
 //     *
