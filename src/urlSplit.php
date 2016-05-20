@@ -70,7 +70,7 @@ class UrlSplit {
         $this->pathList      = $this->getPathList();
         $this->file          = $this->getFile();
         $this->fileName      = $this->getFileName();
-        //$this->fileExtension = $this->getFileExtension();
+        $this->fileExtension = $this->getFileExtension();
         //$this->directory     = $this->getDirectory();
         //$this->directoryList = $this->getDirectoryList();
         //$this->query         = $this->getQuery();
@@ -422,31 +422,28 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the file extension from the request part of the given url.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getFileExtension() {
-//        $cached = $this->cache->fileExtension,
-//        file, fileName, fileReplaced,
-//        fileExtension;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        file          = $this->getFile();
-//        fileName      = getFileName();
-//        fileReplaced  = file.replace(fileName , '');
-//        fileExtension = (fileReplaced[0] == '.' ? fileReplaced.replace('.', '') : fileReplaced);
-//
-//        // noinspection JSValidateTypes
-//        return $this->cache->fileExtension = fileExtension;
-//    }
-//
-//
+    /**
+     * Returns the file extension from the request part of the given url.
+     *
+     * @private
+     * @returns string
+     */
+    function getFileExtension() {
+        $cached = $this->cache->fileExtension;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $file          = $this->getFile();
+        $fileName      = $this->getFileName();
+        $fileReplaced  = str_replace($fileName , '', $file);
+        $fileExtension = ($fileReplaced[0] == '.' ? str_replace('.', '', $fileReplaced) : $fileReplaced);
+
+        return $this->cache->fileExtension = $fileExtension;
+    }
+
+
 //    /**
 //     * Returns the directory parts from the request part of the given url as array.
 //     *
