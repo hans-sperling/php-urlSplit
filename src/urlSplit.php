@@ -75,7 +75,7 @@ class UrlSplit {
         $this->directory     = $this->getDirectory();
         $this->query         = $this->getQuery();
         $this->queryList     = $this->getQueryList();
-        //$this->queryObject   = $this->getQueryObject();
+        $this->queryObject   = $this->getQueryObject();
         //$this->fragment      = $this->getFragment();
         //$this->getQueryValue = getQueryValue;
 
@@ -538,39 +538,36 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns all parameters from the request part of the given url as object list.
-//     *
-//     * @private
-//     * @returns {Object}
-//     */
-//    function getQueryObject() {
-//        $cached = $this->cache->queryObject,
-//            queryList, amount, i, item,
-//            queryObject;
-//
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        queryList   = getQueryList();
-//        amount      = queryList.length;
-//        queryObject = {};
-//
-//        for (i = 0; i < amount; i++) {
-//            item = queryList[i].split('=');
-//
-//            if (item[0] !== undefined && item[1] !== undefined) {
-//                queryObject[item[0]] = item[1];
-//            }
-//        }
-//
-//        // noinspection JSValidateTypes
-//        return $this->cache->queryObject = queryObject;
-//    }
-//
-//
+    /**
+     * Returns all parameters from the request part of the given url as object list.
+     *
+     * @private
+     * @returns array
+     */
+    function getQueryObject() {
+        $cached = $this->cache->queryObject;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $queryList   = $this->getQueryList();
+        $amount      = sizeof($queryList);
+        $queryObject = array();
+
+        for ($i = 0; $i < $amount; $i++) {
+            $item = explode('=', $queryList[$i]);
+
+            if ($item[0] && $item[1]) {
+                $queryObject[$item[0]] = $item[1];
+            }
+        }
+
+        //return $this->cache->queryObject = (object)$queryObject;
+        return $this->cache->queryObject = $queryObject;
+    }
+
+
 //    /**
 //     * Returns the value of the given parameter in the given url.
 //     *
