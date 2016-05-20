@@ -9,8 +9,8 @@ module.exports = function(grunt) {
                 banner: banner
             },
             build : {
-                src  : 'src/<%= pkg.name %>.js',
-                dest : 'dist/<%= pkg.name %>_v<%= pkg.version %>.min.js'
+                src  : 'src/<%= pkg.name %>.php',
+                dest : 'dist/<%= pkg.name %>_v<%= pkg.version %>.min.php'
             }
         },
         concat : {
@@ -18,8 +18,8 @@ module.exports = function(grunt) {
                 banner: banner
             },
             dist: {
-                src: 'src/<%= pkg.name %>.js',
-                dest: 'dist/<%= pkg.name %>_v<%= pkg.version %>.js'
+                src: 'src/<%= pkg.name %>.php',
+                dest: 'dist/<%= pkg.name %>_v<%= pkg.version %>.php'
             }
         }
     });
