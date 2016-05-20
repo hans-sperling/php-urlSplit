@@ -64,7 +64,7 @@ class UrlSplit {
         $this->domain        = $this->getDomain();
         $this->domainList    = $this->getDomainList();
         $this->domainLevels  = $this->getDomainLevels();
-        //$this->port          = $this->getPort();
+        $this->port          = $this->getPort();
         //$this->request       = $this->getRequest();
         //$this->path          = $this->getPath();
         //$this->pathList      = $this->getPathList();
@@ -246,31 +246,32 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the port of the given url.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getPort() {
-//        $cached = $this->cache->port,
-//            protocol, authorization, urlReplace, urlSplit,
-//            port;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        protocol      = $this->getProtocol();
-//        authorization = $this->getAuthorization();
-//        urlReplace    = url.replace(protocol + '://', '').replace(authorization + '@', '');
-//        urlSplit      = urlReplace.split('/')[0].split(':');
-//        port          = (urlSplit[1] !== undefined ? urlSplit[1] : '');
-//
-//        return $this->cache->port = port;
-//    }
-//
-//
+    /**
+     * Returns the port of the given url.
+     *
+     * @private
+     * @returns string
+     */
+    function getPort() {
+        $cached = $this->cache->port;
+        $url    = $this->url;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $protocol      = $this->getProtocol();
+        $authorization = $this->getAuthorization();
+        $urlReplace    = str_replace($authorization . '@', '', str_replace($protocol . '://', '',$url));
+        //$urlReplace    = str_replace($protocol . '://', '',$url);.replace(authorization + '@', '');
+        //$urlSplit      = urlReplace.split('/')[0].split(':');
+        $urlSplit      = explode(':', explode('/', $urlReplace)[0]);
+        $port          = ($urlSplit[1] ? $urlSplit[1] : '');
+
+        return $this->cache->port = $port;
+    }
+
+
 //    /**
 //     * Returns the request of the given url.
 //     *
