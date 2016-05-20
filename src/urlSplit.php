@@ -65,7 +65,7 @@ class UrlSplit {
         $this->domainList    = $this->getDomainList();
         $this->domainLevels  = $this->getDomainLevels();
         $this->port          = $this->getPort();
-        //$this->request       = $this->getRequest();
+        $this->request       = $this->getRequest();
         //$this->path          = $this->getPath();
         //$this->pathList      = $this->getPathList();
         //$this->file          = $this->getFile();
@@ -200,7 +200,9 @@ class UrlSplit {
         }
 
         // @todo - Use getRequest() and getPort() to replace them with empty-string
-        $domain = explode(':', explode('/', $url)[0])[0];
+        // @todo - Try to save other partials if cache is enabled
+        $domain = explode('/', $url)[0];
+        $domain = explode(':', $domain)[0];
 
         return $this->cache->domain = $domain;
     }
@@ -262,45 +264,44 @@ class UrlSplit {
 
         $protocol      = $this->getProtocol();
         $authorization = $this->getAuthorization();
-        $urlReplace    = str_replace($authorization . '@', '', str_replace($protocol . '://', '',$url));
-        //$urlReplace    = str_replace($protocol . '://', '',$url);.replace(authorization + '@', '');
-        //$urlSplit      = urlReplace.split('/')[0].split(':');
-        $urlSplit      = explode(':', explode('/', $urlReplace)[0]);
+        $urlReplace    = str_replace($protocol . '://', '',$url);
+        $urlReplace    = str_replace($authorization . '@', '', $urlReplace);
+        $urlSplit      = explode('/', $urlReplace)[0];
+        $urlSplit      = explode(':', $urlSplit);
         $port          = ($urlSplit[1] ? $urlSplit[1] : '');
 
         return $this->cache->port = $port;
     }
 
 
-//    /**
-//     * Returns the request of the given url.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getRequest() {
-//        $cached = $this->cache->request,
-//            protocol, authorization, domain, port, replace,
-//            request;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        protocol      = $this->getProtocol();
-//        authorization = $this->getAuthorization();
-//        domain        = $this->getDomain();
-//        port          = getPort();
-//        replace       = url.replace(protocol + '://', '');
-//        replace       = replace.replace(authorization + '@', '');
-//        replace       = replace.replace(domain, '');
-//        request       = replace.replace(':' + port, '');
-//
-//        // noinspection JSValidateTypes
-//        return $this->cache->request = request;
-//    }
-//
-//
+    /**
+     * Returns the request of the given url.
+     *
+     * @private
+     * @returns string
+     */
+    function getRequest() {
+        $cached = $this->cache->request;
+        $url    = $this->url;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        // @todo - A better way is to split once at the first / character instead of removing partials
+        $protocol      = $this->getProtocol();
+        $authorization = $this->getAuthorization();
+        $domain        = $this->getDomain();
+        $port          = $this->getPort();
+        $replace       = str_replace($protocol . '://', '', $url);
+        $replace       = str_replace($authorization . '@', '', $replace);
+        $replace       = str_replace($domain, '', $replace);
+        $request       = str_replace(':' . $port, '', $replace);
+
+        return $this->cache->request = $request;
+    }
+
+
 //    /**
 //     * Returns the path from the request part of the given url.
 //     *
