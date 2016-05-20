@@ -74,7 +74,7 @@ class UrlSplit {
         $this->directoryList = $this->getDirectoryList();
         $this->directory     = $this->getDirectory();
         $this->query         = $this->getQuery();
-        //$this->queryList     = $this->getQueryList();
+        $this->queryList     = $this->getQueryList();
         //$this->queryObject   = $this->getQueryObject();
         //$this->fragment      = $this->getFragment();
         //$this->getQueryValue = getQueryValue;
@@ -518,29 +518,26 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the query parts from the request part of the given url as array.
-//     *
-//     * @private
-//     * @returns {Array}
-//     */
-//    function getQueryList() {
-//        $cached = $this->cache->queryList,
-//            query,
-//            queryList;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        query     = getQuery();
-//        queryList = query.split('&');
-//
-//        // noinspection JSValidateTypes
-//        return $this->cache->queryList = queryList;
-//    }
-//
-//
+    /**
+     * Returns the query parts from the request part of the given url as array.
+     *
+     * @private
+     * @returns array
+     */
+    function getQueryList() {
+        $cached = $this->cache->queryList;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $query     = $this->getQuery();
+        $queryList = explode('&', $query);
+
+        return $this->cache->queryList = $queryList;
+    }
+
+
 //    /**
 //     * Returns all parameters from the request part of the given url as object list.
 //     *
