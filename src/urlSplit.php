@@ -72,7 +72,7 @@ class UrlSplit {
         $this->fileName      = $this->getFileName();
         $this->fileExtension = $this->getFileExtension();
         $this->directoryList = $this->getDirectoryList();
-        //$this->directory     = $this->getDirectory();
+        $this->directory     = $this->getDirectory();
         //$this->query         = $this->getQuery();
         //$this->queryList     = $this->getQueryList();
         //$this->queryObject   = $this->getQueryObject();
@@ -450,7 +450,7 @@ class UrlSplit {
      * The directory parts are the path parts excluding the file.
      *
      * @private
-     * @returns {Array}
+     * @returns array
      */
     function getDirectoryList() {
         $cached = $this->cache->directoryList;
@@ -473,31 +473,28 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the directory from the request part of the given url.
-//     *
-//     * The directory is the path excluding the requested file.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getDirectory() {
-//        $cached = $this->cache->directory,
-//            directoryList,
-//            directory;
-//
-//        if ($this->cacheEnabled && $cached !== null) {
-//            return $cached;
-//        }
-//
-//        directoryList = getDirectoryList();
-//        directory     = directoryList.join('');
-//
-//        // noinspection JSValidateTypes
-//        return $this->cache->directory = directory;
-//    }
-//
-//
+    /**
+     * Returns the directory from the request part of the given url.
+     *
+     * The directory is the path excluding the requested file.
+     *
+     * @private
+     * @returns string
+     */
+    function getDirectory() {
+        $cached = $this->cache->directory;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $directoryList = $this->getDirectoryList();
+        $directory     = join('', $directoryList);
+
+        return $this->cache->directory = $directory;
+    }
+
+
 //    /**
 //     * Returns the query from the request part of the given url.
 //     *
