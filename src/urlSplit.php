@@ -59,7 +59,7 @@ class UrlSplit {
 
         $this->protocol      = $this->getProtocol();
         $this->authorization = $this->getAuthorization();
-        //$this->username      = $this->getUsername();
+        $this->username      = $this->getUsername();
         //$this->password      = $this->getPassword();
         //$this->domain        = $this->getDomain();
         //$this->port          = $this->getPort();
@@ -132,58 +132,27 @@ class UrlSplit {
     }
 
 
-//    /**
-//     * Returns the authorization of the given url.
-//     * A normal syntax of an authorization is {username}:{password}@example.com or only {username}@example.com
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getAuthorization() {
-//        var cached = cache.authorization,
-//            protocol, domainSplit,
-//            authorization;
-//
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
-//        }
-//
-//        protocol = getProtocol();
-//
-//        if (protocol) {
-//            url = url.replace(protocol + '://', '');
-//        }
-//
-//        domainSplit   = url.split('@');
-//        authorization = domainSplit[1] ? domainSplit[0] : '';
-//
-//        return cache.authorization = authorization;
-//    }
-//
-//
-//    /**
-//     * Returns the username from the authorization part of the given url.
-//     *
-//     * @private
-//     * @returns {string}
-//     */
-//    function getUsername() {
-//        var cached = cache.username,
-//            authorization, authorizationSplit,
-//            username;
-//
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
-//        }
-//
-//        authorization      = getAuthorization();
-//        authorizationSplit = authorization.split(':');
-//        username           = authorizationSplit[0];
-//
-//        return cache.username = username;
-//    }
-//
-//
+    /**
+     * Returns the username from the authorization part of the given url.
+     *
+     * @private
+     * @returns {string}
+     */
+    function getUsername() {
+        $cached = $this->cache->username;
+
+        if ($this->cacheEnabled && $cached !== null) {
+            return $cached;
+        }
+
+        $authorization      = $this->getAuthorization();
+        $authorizationSplit = explode(':', $authorization);
+        $username           = $authorizationSplit[0];
+
+        return $this->cache->username = $username;
+    }
+
+
 //    /**
 //     * Returns the password from the authorization part of the given url.
 //     *
@@ -191,19 +160,19 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getPassword() {
-//        var cached = cache.password,
+//        $cached = $this->cache->password,
 //            authorization, authorizationSplit,
 //            password;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
-//        authorization      = getAuthorization();
+//        authorization      = $this->getAuthorization();
 //        authorizationSplit = authorization.split(':');
 //        password           = (authorizationSplit[1] ? authorizationSplit[1] : '');
 //
-//        return cache.password = password;
+//        return $this->cache->password = password;
 //    }
 //
 //
@@ -214,16 +183,16 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getDomain() {
-//        var cached = cache.domain,
+//        $cached = $this->cache->domain,
 //            protocol, authorization,
 //            domain;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        protocol      = getProtocol();
-//        authorization = getAuthorization();
+//        authorization = $this->getAuthorization();
 //
 //        if (protocol) {
 //            url = url.replace(protocol + '://', '');
@@ -236,7 +205,7 @@ class UrlSplit {
 //        // Remove request and port if exists
 //        domain = url.split('/')[0].split(':')[0];
 //
-//        return cache.domain = domain;
+//        return $this->cache->domain = domain;
 //    }
 //
 //
@@ -247,19 +216,19 @@ class UrlSplit {
 //     * @returns {Array}
 //     */
 //    function getDomainList() {
-//        var cached = cache.domainList,
+//        $cached = $this->cache->domainList,
 //            domain,
 //            domainList;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        domain     = getDomain();
 //        domainList = domain.split('.');
 //
 //        // noinspection JSValidateTypes
-//        return cache.domainList = domainList;
+//        return $this->cache->domainList = domainList;
 //    }
 //
 //
@@ -270,19 +239,19 @@ class UrlSplit {
 //     * @returns {Array}
 //     */
 //    function getDomainLevels() {
-//        var cached = cache.domainLevels,
+//        $cached = $this->cache->domainLevels,
 //            domainList,
 //            domainLevels;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        domainList   = getDomainList();
 //        domainLevels = domainList.slice().reverse();
 //
 //        // noinspection JSValidateTypes
-//        return cache.domainLevels = domainLevels;
+//        return $this->cache->domainLevels = domainLevels;
 //    }
 //
 //
@@ -293,21 +262,21 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getPort() {
-//        var cached = cache.port,
+//        $cached = $this->cache->port,
 //            protocol, authorization, urlReplace, urlSplit,
 //            port;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        protocol      = getProtocol();
-//        authorization = getAuthorization();
+//        authorization = $this->getAuthorization();
 //        urlReplace    = url.replace(protocol + '://', '').replace(authorization + '@', '');
 //        urlSplit      = urlReplace.split('/')[0].split(':');
 //        port          = (urlSplit[1] !== undefined ? urlSplit[1] : '');
 //
-//        return cache.port = port;
+//        return $this->cache->port = port;
 //    }
 //
 //
@@ -318,16 +287,16 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getRequest() {
-//        var cached = cache.request,
+//        $cached = $this->cache->request,
 //            protocol, authorization, domain, port, replace,
 //            request;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        protocol      = getProtocol();
-//        authorization = getAuthorization();
+//        authorization = $this->getAuthorization();
 //        domain        = getDomain();
 //        port          = getPort();
 //        replace       = url.replace(protocol + '://', '');
@@ -336,7 +305,7 @@ class UrlSplit {
 //        request       = replace.replace(':' + port, '');
 //
 //        // noinspection JSValidateTypes
-//        return cache.request = request;
+//        return $this->cache->request = request;
 //    }
 //
 //
@@ -347,18 +316,18 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getPath() {
-//        var cached = cache.path,
+//        $cached = $this->cache->path,
 //            request,
 //            path;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        request = getRequest();
 //        path    = request.split('?')[0];
 //
-//        return cache.path = path;
+//        return $this->cache->path = path;
 //    }
 //
 //
@@ -369,12 +338,12 @@ class UrlSplit {
 //     * @returns {Array}
 //     */
 //    function getPathList() {
-//        var cached = cache.pathList,
+//        $cached = $this->cache->pathList,
 //            path, amount, i,
 //            pathList;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        path     = getPath();
@@ -398,7 +367,7 @@ class UrlSplit {
 //        }
 //
 //        // noinspection JSValidateTypes
-//        return cache.pathList = pathList;
+//        return $this->cache->pathList = pathList;
 //    }
 //
 //
@@ -409,12 +378,12 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getFile() {
-//        var cached = cache.file,
+//        $cached = $this->cache->file,
 //            pathList, lastItem, itemSplitDash, itemSplitDot,
 //            file;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        pathList = getPathList();
@@ -435,7 +404,7 @@ class UrlSplit {
 //            file = '';
 //        }
 //
-//        return cache.file = file;
+//        return $this->cache->file = file;
 //    }
 //
 //
@@ -446,12 +415,12 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getFileName() {
-//        var cached = cache.fileName,
+//        $cached = $this->cache->fileName,
 //            file, fileSplit,
 //            fileName;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        file      = getFile();
@@ -464,7 +433,7 @@ class UrlSplit {
 //            fileName = fileSplit[0];
 //        }
 //
-//        return cache.fileName = fileName;
+//        return $this->cache->fileName = fileName;
 //    }
 //
 //
@@ -475,12 +444,12 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getFileExtension() {
-//        var cached = cache.fileExtension,
+//        $cached = $this->cache->fileExtension,
 //        file, fileName, fileReplaced,
 //        fileExtension;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        file          = getFile();
@@ -489,7 +458,7 @@ class UrlSplit {
 //        fileExtension = (fileReplaced[0] == '.' ? fileReplaced.replace('.', '') : fileReplaced);
 //
 //        // noinspection JSValidateTypes
-//        return cache.fileExtension = fileExtension;
+//        return $this->cache->fileExtension = fileExtension;
 //    }
 //
 //
@@ -502,12 +471,12 @@ class UrlSplit {
 //     * @returns {Array}
 //     */
 //    function getDirectoryList() {
-//        var cached = cache.directoryList,
+//        $cached = $this->cache->directoryList,
 //            pathList, file,
 //            directoryList;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        pathList = getPathList();
@@ -520,7 +489,7 @@ class UrlSplit {
 //            directoryList = pathList;
 //        }
 //
-//        return cache.directoryList = directoryList;
+//        return $this->cache->directoryList = directoryList;
 //    }
 //
 //
@@ -533,19 +502,19 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getDirectory() {
-//        var cached = cache.directory,
+//        $cached = $this->cache->directory,
 //            directoryList,
 //            directory;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        directoryList = getDirectoryList();
 //        directory     = directoryList.join('');
 //
 //        // noinspection JSValidateTypes
-//        return cache.directory = directory;
+//        return $this->cache->directory = directory;
 //    }
 //
 //
@@ -558,19 +527,19 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getQuery() {
-//        var cached = cache.query,
+//        $cached = $this->cache->query,
 //            request, requestSplit,
 //            query;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        request      = getRequest();
 //        requestSplit = request.split('?');
 //        query        = (requestSplit[1] !== undefined ? requestSplit[1].split('#')[0] : '');
 //
-//        return cache.query = query;
+//        return $this->cache->query = query;
 //    }
 //
 //
@@ -581,19 +550,19 @@ class UrlSplit {
 //     * @returns {Array}
 //     */
 //    function getQueryList() {
-//        var cached = cache.queryList,
+//        $cached = $this->cache->queryList,
 //            query,
 //            queryList;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        query     = getQuery();
 //        queryList = query.split('&');
 //
 //        // noinspection JSValidateTypes
-//        return cache.queryList = queryList;
+//        return $this->cache->queryList = queryList;
 //    }
 //
 //
@@ -604,13 +573,13 @@ class UrlSplit {
 //     * @returns {Object}
 //     */
 //    function getQueryObject() {
-//        var cached = cache.queryObject,
+//        $cached = $this->cache->queryObject,
 //            queryList, amount, i, item,
 //            queryObject;
 //
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        queryList   = getQueryList();
@@ -626,7 +595,7 @@ class UrlSplit {
 //        }
 //
 //        // noinspection JSValidateTypes
-//        return cache.queryObject = queryObject;
+//        return $this->cache->queryObject = queryObject;
 //    }
 //
 //
@@ -661,19 +630,19 @@ class UrlSplit {
 //     * @returns {string}
 //     */
 //    function getFragment() {
-//        var cached = cache.fragment,
+//        $cached = $this->cache->fragment,
 //            request, requestSplit,
 //            fragment;
 //
-//        if (cacheEnabled && cached !== null) {
-//            return cached;
+//        if ($this->cacheEnabled && $cached !== null) {
+//            return $cached;
 //        }
 //
 //        request      = getRequest();
 //        requestSplit = request.split('#');
 //        fragment     = (requestSplit[1] !== undefined ? requestSplit[1] : '');
 //
-//        return cache.fragment = fragment;
+//        return $this->cache->fragment = fragment;
 //    }
 
 
