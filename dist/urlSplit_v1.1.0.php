@@ -288,15 +288,10 @@ class UrlSplit {
             return $cached;
         }
 
-        // @todo - A better way is to split once at the first / character instead of removing partials
-        $protocol      = $this->getProtocol();
-        $authorization = $this->getAuthorization();
-        $domain        = $this->getDomain();
-        $port          = $this->getPort();
-        $replace       = str_replace($protocol . '://', '', $url);
-        $replace       = str_replace($authorization . '@', '', $replace);
-        $replace       = str_replace($domain, '', $replace);
-        $request       = str_replace(':' . $port, '', $replace);
+        $protocol           = $this->getProtocol();
+        $urlWithoutProtocol = str_replace($protocol . '://', '', $url);
+        $position           = strpos($urlWithoutProtocol, '/');
+        $request            = $position ? substr($urlWithoutProtocol, $position) : '';
 
         return $this->cache->request = $request;
     }
@@ -578,9 +573,9 @@ class UrlSplit {
     public function getQueryValue($param) {
         $parameterObject = $this->getQueryObject();
 
-        foreach ($parameterObject as $item) {
+        foreach ($parameterObject as $item => $value) {
             if ($item == $param) {
-                return $parameterObject[$item];
+                return $value;
             }
         }
 

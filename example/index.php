@@ -13,11 +13,12 @@ if (file_exists('../src/init.php')) {
 </head>
 <body>
     <?php
-    $urlString = 'https://username:password@www.subdomain.example.com:1234/folder/subfolder/index.html?search=products&sort=false#top';
-    $url       = new UrlSplit($urlString);
+    $urlString   = 'https://username:password@www.subdomain.example.com:1234/folder/subfolder/index.html?search=products&sort=false#top';
+    $url         = new UrlSplit($urlString);
+    $urlParamVal = $url->getQueryValue('search');
 
     //debug($url);
-    print_r($url);
+    //debug($urlParamVal);
     ?>
 </body>
 </html>
