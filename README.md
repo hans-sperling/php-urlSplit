@@ -18,6 +18,16 @@ Splits / Extracts the current url or a given one into its partials.
                               4th-level-domain
 
 
+## Initialize
+```php
+    $url = new UrlSplit(); // Call with current url get from server
+    
+    // or
+    $url = new UrlSplit('https://your.supersweet-domain.com/index.html?search=products');
+    $url->getQueryValue('search'); // Returns : 'products'
+```
+
+
 ## Methods
 
 ### getQueryValue(param);
@@ -25,7 +35,7 @@ Splits / Extracts the current url or a given one into its partials.
 - Return: `string|null` The value of the given parameter or null if the parameter doesn't exist
 
 
-## Usage and Example
+## Example
 
 ```php
     $urlString = 'https://username:password@www.subdomain.example.com:1234/folder/subfolder/index.html?search=products&sort=false#top';
@@ -67,7 +77,7 @@ Splits / Extracts the current url or a given one into its partials.
      *     [queryObject]   array(2)   => ([search] string(8) => 'products'
      *                                    [sort]   string(5) => 'false')
      *     [fragment]      string(3)  => 'top'
-     *     [getQueryValue  function(string $param)
+     *     [getQueryValue] function(string $param)
      * )
      */
 ```
