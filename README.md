@@ -20,7 +20,7 @@ Splits / Extracts the current url or a given one into its partials.
 
 ## Initialize
 ```php
-    $url = new UrlSplit(); // Call with current url get from server
+    $url = new UrlSplit(); // Call with current url
     
     // or
     $url = new UrlSplit('https://your.supersweet-domain.com/index.html?search=products');
