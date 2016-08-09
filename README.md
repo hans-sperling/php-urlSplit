@@ -1,4 +1,4 @@
-# urlSplit
+# urlSplit.php
 
 Splits / Extracts the current url or a given one into its partials.
 
