@@ -1,5 +1,5 @@
 {
-    "name"        : "urlSplit",
+    "name"        : "urlSplit.php",
     "version"     : "1.1.0",
     "description" : "Splits / Extracts the current url or a given one into its partials.",
     "keywords" : [
@@ -10,10 +10,10 @@
     ],
     "repository" : {
         "type": "git",
-        "url": "https://github.com/hans-sperling/php-urlSplit"
+        "url": "https://github.com/hans-sperling/urlSplit.php"
     },
     "bugs" : {
-        "url"   : "https://github.com/hans-sperling/php-urlSplit/issues",
+        "url"   : "https://github.com/hans-sperling/urlSplit.php/issues",
         "email" : "info@bluejade.de"
     },
     "contributors" : [{
